@@ -46,21 +46,23 @@ export default function Home() {
   };
 
   const updateData = async () => {
-    let res = await axios.get("/api/get");
-    setDisCnt(res.data.data.length > 20 ? 20 : res.data.data.length);
-    let tmp = res.data.data.reverse();
-    setData(res.data.data);
-  };
+    let res = await axios.get("/api/get").then(() => {
 
+      setDisCnt(res.data.data.length > 20 ? 20 : res.data.data.length);
+      let tmp = res.data.data.reverse();
+      setData(res.data.data);
+    });
+  };
+console.log(data)
   useEffect(() => {
     if (!data) updateData();
   });
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="flex flex-col gap-1 w-full">
+    <main className="flex flex-col items-center justify-between min-h-screen p-24">
+      <div className="flex flex-col w-full gap-1">
         {data ? (
           data.slice(0, disCnt).map((item, id) => (
-            <div key={id} className="relative bg-gray-200 rounded-md p-2">
+            <div key={id} className="relative p-2 bg-gray-200 rounded-md">
               {item.content}
               <div className="absolute top-0 right-[-10px] cursor-pointer">
                 <Button
